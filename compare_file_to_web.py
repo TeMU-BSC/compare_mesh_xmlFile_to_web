@@ -68,7 +68,7 @@ def compareDocuments(xml_files_list,output_file, output_path_none_doc):
                 documentWeb = bsObjWeb.find('doc')
 
                 if not documentWeb:
-                    file_doc_not_in_web = open(output_file, "a+")
+                    file_doc_not_in_web = open(output_path_none_doc, "a+")
                     file_doc_not_in_web.write(article_id+"\t"+ file + "\t" +url)
                     file_doc_not_in_web.close()
                     continue
