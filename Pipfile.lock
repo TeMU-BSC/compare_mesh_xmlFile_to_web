@@ -168,7 +168,8 @@
         },
         "wrapt": {
             "hashes": [
-                "sha256:565a021fd19419476b9362b05eeaa094178de64f8361e44468f9e9d7843901e1"
+                "sha256:565a021fd19419476b9362b05eeaa094178de64f8361e44468f9e9d7843901e1",
+                "sha256:596df117ad3522e715f9edebb5bb5ca8d0b5d1d930fe600f0da6955e18c1b673"
             ],
             "version": "==1.11.2"
         }
@@ -212,7 +213,8 @@
         },
         "pathspec": {
             "hashes": [
-                "sha256:e285ccc8b0785beadd4c18e5708b12bb8fcf529a1e61215b3feff1d1e559ea5c"
+                "sha256:e285ccc8b0785beadd4c18e5708b12bb8fcf529a1e61215b3feff1d1e559ea5c",
+                "sha256:f42e053ae2a8ae461f9dc425a4289897cb7a2a5ef5eaec290ba2d6bb4ee16cc9"
             ],
             "version": "==0.6.0"
         },

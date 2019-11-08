@@ -22,7 +22,7 @@ def compareAndSave(update_date1, update_date2, fileName1, fileName2, article_id1
     print(mh_list2)
 
     if diff_mh1 or diff_mh2:
-        print("Found differents -> "+fileName1," --- ", article_id1 +"\n ",diff_mh1,"\n",diff_mh2)
+        print("\nFound differents -> "+ fileName1," --- ", article_id1 +"\n",diff_mh1,"\n",diff_mh2,"\n")
         file_to_append = open(output_file, "a+")
         file_to_append.write(article_id1 + "\t" + str(update_date1) + "\t"+str("|".join(mh_list1)) + "\t" + str("|".join(diff_mh1)) + "\t" + fileName1 + "\n")
         file_to_append.write(article_id2 + "\t" + str(update_date2) + "\t"+str("|".join(mh_list2)) + "\t" + str("|".join(diff_mh2)) + "\t" + fileName2 + "\n")
@@ -32,7 +32,7 @@ def compareDocuments(xml_files_list,output_file):
 
     # Loop for run a xml files one by one, from the xml files list.
     for i, file in enumerate(xml_files_list):
-        print("File -->",file,"---", i)
+        print("\nFile -->",file,"---", i)
 
         xml_file = open(file)  # Open the xml file an save into the varibale.
         xml_content = xml_file.read()  # Read all content from xml file.
@@ -41,7 +41,7 @@ def compareDocuments(xml_files_list,output_file):
         documents = bsObj.findAll("doc") # Getting all document from the bson object created before.
 
         for j, document in enumerate(documents):
-            print("Doc -->", j)
+            print("\nDoc -->", j)
 
             article_id = document.find(attrs={'name': "id"}).text
             update_date = document.find(attrs={'name': "update_date"}).text
