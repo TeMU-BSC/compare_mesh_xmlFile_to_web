@@ -8,7 +8,6 @@ verify_ssl = true
 [packages]
 natsort = "*"
 bs4 = "*"
-lsml = "*"
 lxml = "*"
 
 [requires]
