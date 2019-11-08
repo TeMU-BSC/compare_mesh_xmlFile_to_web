@@ -9,16 +9,17 @@ import argparse
 # Helps read xml, html,ect (dom) files and extract data easily.
 from bs4 import BeautifulSoup
 
-BASE_URL = 'https://pesquisa.bvsalud.org/portal/?output=xml&lang=pt&from=&sort=&format=&count=&fb=&page=1&index=tw&q=id%3A'
+BASE_URL = 'https://pesquisa.bvsalud.org/portal/?output=xml&lang=es&from=&sort=&format=&count=&fb=&page=1&index=tw&q=id%3A'
 
 
 def compareAndSave(update_date1, update_date2, fileName1, fileName2, article_id1, article_id2, mh_list1, mh_list2, output_file):
-    diff_mh1 = set(mh_list1-mh_list2)
-    diff_mh2 = set(mh_list2-mh_list1)
-    list(mh_list1).sort()
+    diff_mh1 = set(mh_list1 - mh_list2)   #Get difference between two list and convert into set , set will delete all duplicate.
+    diff_mh2 = set(mh_list2 - mh_list1)   #Get difference between two list and convert into set , set will delete all duplicate.
+    
+    list(mh_list1).sort() #Sort list ascending order.
     list(mh_list2).sort()
 
-    print(mh_list1)
+    print(mh_list1) 
     print(mh_list2)
 
     if diff_mh1 or diff_mh2:
