@@ -28,7 +28,7 @@ def compareAndSave(update_date1, update_date2, fileName1, fileName2, article_id1
         file_to_append.write(article_id2 + "\t" + str(update_date2) + "\t"+str("|".join(mh_list2)) + "\t" + str("|".join(diff_mh2)) + "\t" + fileName2 + "\n")
         file_to_append.close()
 
-def compareDocuments(xml_files_list,output_file):
+def compareDocuments(xml_files_list,output_file, output_path_none_doc):
 
     # Loop for run a xml files one by one, from the xml files list.
     for i, file in enumerate(xml_files_list):
@@ -67,6 +67,9 @@ def compareDocuments(xml_files_list,output_file):
                 documentWeb = bsObjWeb.find('doc')
 
                 if not documentWeb:
+                    file_doc_not_in_web = open(output_file, "a+")
+                    file_doc_not_in_web.write(article_id+"\t"+ file + "\t" +url)
+                    file_doc_not_in_web.close()
                     continue
 
                 else:
@@ -93,15 +96,21 @@ def compareDocuments(xml_files_list,output_file):
                                    article_idWeb, mesh_set, mesh_setWeb, output_file)
 
 
-def main(input_dir, output_file):
+def main(input_dir, output_file,output_path_none_doc):
     list_files = glob.glob(os.path.join(input_dir, "*.xml"))
 
     list_files_sorted = natsorted(list_files, alg=ns.IGNORECASE)
     
-    file_to_append = open(output_file, "w")
-    file_to_append.write("Article_id\tUpdate Date\tMesh Headers\tDifferent\tSource\n")
+    file_doc_not_in_web = open(output_path_none_doc, "w")
+    file_doc_not_in_web.write("Article_id\tSource\tUrl")
+
+    file_diff_doc = open(output_file, "w")
+    file_diff_doc.write("Article_id\tUpdate Date\tMesh Headers\tDifferent\tSource\n")
     
-    compareDocuments(list_files_sorted,output_file)
+    file_diff_doc.close()
+    file_doc_not_in_web.close()
+
+    compareDocuments(list_files_sorted,output_file,output_path_none_doc)
 
 
 if __name__ == '__main__':
@@ -116,5 +125,5 @@ if __name__ == '__main__':
 
     input_dir = args.input
     output_path = args.output
-
-    main(input_dir, output_path)
+    output_path_none_doc = output_path + "Doc_Not_Found_in_Web.txt"
+    main(input_dir, output_path,output_path_none_doc)
