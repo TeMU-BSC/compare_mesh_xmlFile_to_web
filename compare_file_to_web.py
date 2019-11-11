@@ -13,14 +13,11 @@ BASE_URL = 'https://pesquisa.bvsalud.org/portal/?output=xml&lang=es&from=&sort=&
 
 
 def compareAndSave(update_date1, update_date2, fileName1, fileName2, article_id1, article_id2, mh_list1, mh_list2, output_file):
-    diff_mh1 = set(mh_list1 - mh_list2)   #Get difference between two list and convert into set , set will delete all duplicate.
-    diff_mh2 = set(mh_list2 - mh_list1)   #Get difference between two list and convert into set , set will delete all duplicate.
+    diff_mh1 = set(mh_list2 - mh_list1)   #Get difference between two list and convert into set , set will delete all duplicate.
+    diff_mh2 = set(mh_list1 - mh_list2)   #Get difference between two list and convert into set , set will delete all duplicate.
     
     list(mh_list1).sort() #Sort list ascending order.
     list(mh_list2).sort()
-
-    print(mh_list1) 
-    print(mh_list2)
 
     if diff_mh1 or diff_mh2:
         print("\nFound differents -> "+ fileName1," --- ", article_id1 +"\n",diff_mh1,"\n",diff_mh2,"\n")
@@ -45,7 +42,13 @@ def compareDocuments(xml_files_list,output_file, output_path_none_doc):
             print("\nDoc -->", j)
 
             article_id = document.find(attrs={'name': "id"}).text
-            update_date = document.find(attrs={'name': "update_date"}).text
+            update_dateObj = document.find(attrs={'name': "update_date"})
+
+            if update_dateObj:
+                update_date = update_dateObj.text
+            else:
+                update_date = "null"
+
             mh_children = document.find(attrs={'name': "mh"})
 
             if not mh_children:
@@ -69,17 +72,19 @@ def compareDocuments(xml_files_list,output_file, output_path_none_doc):
 
                 if not documentWeb:
                     file_doc_not_in_web = open(output_path_none_doc, "a+")
-                    file_doc_not_in_web.write(article_id+"\t"+ file + "\t" +url)
+                    file_doc_not_in_web.write(article_id+"\t"+ file + "\t" +url+ "\n")
                     file_doc_not_in_web.close()
                     continue
 
                 else:
-                    article_idWeb = documentWeb.find(
-                        text=article_id, attrs={'name': "id"}).text
+                    article_idWeb = documentWeb.find(text=article_id, attrs={'name': "id"}).text
 
                     mh_childrenWeb = documentWeb.find(attrs={'name': "mh"})
-                    update_dateWeb = documentWeb.find(
-                        attrs={'name': "update_date"}).text
+                    update_dateWebObj = documentWeb.find(attrs={'name': "update_date"})
+                    if update_dateWebObj: 
+                        update_dateWeb = update_dateWebObj.text
+                    else:
+                        update_dateWeb = "null"
 
                     if mh_childrenWeb:
                         mesh_setWeb = set()
@@ -103,7 +108,7 @@ def main(input_dir, output_file,output_path_none_doc):
     list_files_sorted = natsorted(list_files, alg=ns.IGNORECASE)
     
     file_doc_not_in_web = open(output_path_none_doc, "w")
-    file_doc_not_in_web.write("Article_id\tSource\tUrl")
+    file_doc_not_in_web.write("Article_id\tSource\tUrl\n")
 
     file_diff_doc = open(output_file, "w")
     file_diff_doc.write("Article_id\tUpdate Date\tMesh Headers\tDifferent\tSource\n")
