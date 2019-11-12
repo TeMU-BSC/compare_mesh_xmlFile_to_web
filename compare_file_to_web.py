@@ -105,16 +105,16 @@ def compareDocuments(xml_files_list,output_file, output_path_none_doc):
 def main(input_dir, output_file,output_path_none_doc):
     list_files = glob.glob(os.path.join(input_dir, "*.xml"))
 
-    list_files_sorted = natsorted(list_files, alg=ns.IGNORECASE)
+    list_files_sorted = natsorted(list_files[225:], alg=ns.IGNORECASE)
     
-    file_doc_not_in_web = open(output_path_none_doc, "w")
-    file_doc_not_in_web.write("Article_id\tSource\tUrl\n")
+    # file_doc_not_in_web = open(output_path_none_doc, "w")
+    # file_doc_not_in_web.write("Article_id\tSource\tUrl\n")
 
-    file_diff_doc = open(output_file, "w")
-    file_diff_doc.write("Article_id\tUpdate Date\tMesh Headers\tDifferent\tSource\n")
+    # file_diff_doc = open(output_file, "w")
+    # file_diff_doc.write("Article_id\tUpdate Date\tMesh Headers\tDifferent\tSource\n")
     
-    file_diff_doc.close()
-    file_doc_not_in_web.close()
+    # file_diff_doc.close()
+    # file_doc_not_in_web.close()
 
     compareDocuments(list_files_sorted,output_file,output_path_none_doc)
 
