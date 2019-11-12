@@ -114,7 +114,7 @@ def main(input_dir, output_file,output_path_none_doc):
     # file_diff_doc.write("Article_id\tUpdate Date\tMesh Headers\tDifferent\tSource\n")
     
     # file_diff_doc.close()
-    # file_doc_not_in_web.close()
+    # file_doc_not_in_web.close()s
 
     compareDocuments(list_files_sorted[300:],output_file,output_path_none_doc)
 
