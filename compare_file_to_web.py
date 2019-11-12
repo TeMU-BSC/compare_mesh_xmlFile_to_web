@@ -116,7 +116,7 @@ def main(input_dir, output_file,output_path_none_doc):
     # file_diff_doc.close()
     # file_doc_not_in_web.close()
 
-    compareDocuments(list_files_sorted[225:],output_file,output_path_none_doc)
+    compareDocuments(list_files_sorted[226:],output_file,output_path_none_doc)
 
 
 if __name__ == '__main__':
