@@ -29,8 +29,8 @@ def compareAndSave(update_date1, update_date2, fileName1, fileName2, article_id1
 def compareDocuments(xml_files_list,output_file, output_path_none_doc):
 
     # Loop for run a xml files one by one, from the xml files list.
-    for i, file in enumerate(xml_files_list):
-        print("\nFile -->",file,"---", i)
+    for file in xml_files_list:
+        print("\nFile -->",file)
 
         xml_file = open(file)  # Open the xml file an save into the varibale.
         xml_content = xml_file.read()  # Read all content from xml file.
@@ -107,16 +107,16 @@ def main(input_dir, output_file,output_path_none_doc):
 
     list_files_sorted = natsorted(list_files, alg=ns.IGNORECASE)
     
-    # file_doc_not_in_web = open(output_path_none_doc, "w")
-    # file_doc_not_in_web.write("Article_id\tSource\tUrl\n")
+    file_doc_not_in_web = open(output_path_none_doc, "w")
+    file_doc_not_in_web.write("Article_id\tSource\tUrl\n")
 
-    # file_diff_doc = open(output_file, "w")
-    # file_diff_doc.write("Article_id\tUpdate Date\tMesh Headers\tDifferent\tSource\n")
+    file_diff_doc = open(output_file, "w")
+    file_diff_doc.write("Article_id\tUpdate Date\tMesh Headers\tDifferent\tSource\n")
     
-    # file_diff_doc.close()
-    # file_doc_not_in_web.close()s
+    file_diff_doc.close()
+    file_doc_not_in_web.close()
 
-    compareDocuments(list_files_sorted[300:],output_file,output_path_none_doc)
+    compareDocuments(list_files_sorted,output_file,output_path_none_doc)
 
 
 if __name__ == '__main__':
