@@ -65,11 +65,13 @@ def compareDocuments(xml_files_list,output_file, output_path_none_doc):
                         mesh_set.add(sh_child.text)
 
                 url = str(BASE_URL + article_id)
-
-                xml_web_content = urlopen(url)
-                bsObjWeb = BeautifulSoup(xml_web_content, features='lxml')
-                documentWeb = bsObjWeb.find('doc')
-
+                try:
+                    xml_web_content = urlopen(url)
+                    bsObjWeb = BeautifulSoup(xml_web_content, features='lxml')
+                    documentWeb = bsObjWeb.find('doc')
+                except:
+                    pass
+                
                 if not documentWeb:
                     file_doc_not_in_web = open(output_path_none_doc, "a+")
                     file_doc_not_in_web.write(article_id+"\t"+ file + "\t" +url+ "\n")
@@ -107,16 +109,16 @@ def main(input_dir, output_file,output_path_none_doc):
 
     list_files_sorted = natsorted(list_files, alg=ns.IGNORECASE)
     
-    file_doc_not_in_web = open(output_path_none_doc, "w")
-    file_doc_not_in_web.write("Article_id\tSource\tUrl\n")
+    # file_doc_not_in_web = open(output_path_none_doc, "w")
+    # file_doc_not_in_web.write("Article_id\tSource\tUrl\n")
 
-    file_diff_doc = open(output_file, "w")
-    file_diff_doc.write("Article_id\tUpdate Date\tMesh Headers\tDifferent\tSource\n")
+    # file_diff_doc = open(output_file, "w")
+    # file_diff_doc.write("Article_id\tUpdate Date\tMesh Headers\tDifferent\tSource\n")
     
-    file_diff_doc.close()
-    file_doc_not_in_web.close()
+    # file_diff_doc.close()
+    # file_doc_not_in_web.close()
 
-    compareDocuments(list_files_sorted,output_file,output_path_none_doc)
+    compareDocuments(list_files_sorted[614],output_file,output_path_none_doc)
 
 
 if __name__ == '__main__':
