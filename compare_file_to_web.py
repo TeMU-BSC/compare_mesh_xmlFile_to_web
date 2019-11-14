@@ -101,7 +101,8 @@ def compareDocuments(xml_files_list,output_file, output_path_none_doc):
 
                         compareAndSave(update_date, update_dateWeb, file, url, article_id,
                                     article_idWeb, mesh_set, mesh_setWeb, output_file)
-            except:
+            except Exception as er:
+                print(er)
                 pass
 
 def main(input_dir, output_file,output_path_none_doc):
