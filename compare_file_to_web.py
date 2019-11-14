@@ -39,70 +39,70 @@ def compareDocuments(xml_files_list,output_file, output_path_none_doc):
         documents = bsObj.findAll("doc") # Getting all document from the bson object created before.
 
         for j, document in enumerate(documents):
-            print("\nDoc -->", j)
+            try:
+                print("\nDoc -->", j)
 
-            article_id = document.find(attrs={'name': "id"}).text
-            update_dateObj = document.find(attrs={'name': "update_date"})
+                article_id = document.find(attrs={'name': "id"}).text
+                update_dateObj = document.find(attrs={'name': "update_date"})
 
-            if update_dateObj:
-                update_date = update_dateObj.text
-            else:
-                update_date = "null"
+                if update_dateObj:
+                    update_date = update_dateObj.text
+                else:
+                    update_date = "null"
 
-            mh_children = document.find(attrs={'name': "mh"})
+                mh_children = document.find(attrs={'name': "mh"})
 
-            if not mh_children:
-                continue
-
-            else:
-                mesh_set = set()
-                for mh_child in mh_children:
-                    mesh_set.add(mh_child.text)
-                sh_children = document.find(attrs={'name': "sh"})
-
-                if sh_children:
-                    for sh_child in mh_children:
-                        mesh_set.add(sh_child.text)
-
-                url = str(BASE_URL + article_id)
-                try:
-                    xml_web_content = urlopen(url)
-                    bsObjWeb = BeautifulSoup(xml_web_content, features='lxml')
-                    documentWeb = bsObjWeb.find('doc')
-                except:
-                    pass
-                
-                if not documentWeb:
-                    file_doc_not_in_web = open(output_path_none_doc, "a+")
-                    file_doc_not_in_web.write(article_id+"\t"+ file + "\t" +url+ "\n")
-                    file_doc_not_in_web.close()
+                if not mh_children:
                     continue
 
                 else:
-                    article_idWeb = documentWeb.find(text=article_id, attrs={'name': "id"}).text
+                    mesh_set = set()
+                    for mh_child in mh_children:
+                        mesh_set.add(mh_child.text)
+                    sh_children = document.find(attrs={'name': "sh"})
 
-                    mh_childrenWeb = documentWeb.find(attrs={'name': "mh"})
-                    update_dateWebObj = documentWeb.find(attrs={'name': "update_date"})
-                    if update_dateWebObj: 
-                        update_dateWeb = update_dateWebObj.text
+                    if sh_children:
+                        for sh_child in mh_children:
+                            mesh_set.add(sh_child.text)
+
+                    url = str(BASE_URL + article_id)
+                    
+                    xml_web_content = urlopen(url)
+                    bsObjWeb = BeautifulSoup(xml_web_content, features='lxml')
+                    documentWeb = bsObjWeb.find('doc')
+
+                    if not documentWeb:
+                        file_doc_not_in_web = open(output_path_none_doc, "a+")
+                        file_doc_not_in_web.write(article_id+"\t"+ file + "\t" +url+ "\n")
+                        file_doc_not_in_web.close()
+                        continue
+
                     else:
-                        update_dateWeb = "null"
+                        article_idWeb = documentWeb.find(text=article_id, attrs={'name': "id"}).text
 
-                    if mh_childrenWeb:
-                        mesh_setWeb = set()
+                        mh_childrenWeb = documentWeb.find(attrs={'name': "mh"})
+                        update_dateWebObj = documentWeb.find(attrs={'name': "update_date"})
+                        if update_dateWebObj: 
+                            update_dateWeb = update_dateWebObj.text
+                        else:
+                            update_dateWeb = "null"
 
-                        for mh_childWeb in mh_childrenWeb:
-                            mesh_setWeb.add(mh_childWeb.text)
+                        if mh_childrenWeb:
+                            mesh_setWeb = set()
 
-                        sh_childrenWeb = documentWeb.find(attrs={'name': "sh"})
+                            for mh_childWeb in mh_childrenWeb:
+                                mesh_setWeb.add(mh_childWeb.text)
 
-                        if sh_childrenWeb:
-                            for sh_childWeb in sh_childrenWeb:
-                                mesh_setWeb.add(sh_childWeb.text)
+                            sh_childrenWeb = documentWeb.find(attrs={'name': "sh"})
 
-                    compareAndSave(update_date, update_dateWeb, file, url, article_id,
-                                   article_idWeb, mesh_set, mesh_setWeb, output_file)
+                            if sh_childrenWeb:
+                                for sh_childWeb in sh_childrenWeb:
+                                    mesh_setWeb.add(sh_childWeb.text)
 
+                        compareAndSave(update_date, update_dateWeb, file, url, article_id,
+                                    article_idWeb, mesh_set, mesh_setWeb, output_file)
+            except:
+                pass
 
 def main(input_dir, output_file,output_path_none_doc):
     list_files = glob.glob(os.path.join(input_dir, "*.xml"))
